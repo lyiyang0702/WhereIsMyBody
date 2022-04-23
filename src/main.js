@@ -11,3 +11,4 @@ let game = new Phaser.Game(config);
 let borderPadding = game.config.height/ 25;
 //define keys
 let keySPACE, keyENTER;
+//hello this is Thrisha
