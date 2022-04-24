@@ -93,7 +93,7 @@ class Play extends Phaser.Scene {
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keySPACE)){
             this.scene.start("menuScene");
         }
-        if(this.ring.x == this.kirby.x) {
+        if((this.ring.x && this.ring.y) == (this.kirby.x && this.kirby.y)) {
             this.scene.start("menuScene");
         }
         //make ground scroll
