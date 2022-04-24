@@ -83,6 +83,7 @@ class Play extends Phaser.Scene {
     
 
     update(){
+        //make background scroll
         this.hell.tilePositionX += this.SCROLL_SPEED;
         this.ring.x -= 1;
         //game Over restarting choice
@@ -101,7 +102,7 @@ class Play extends Phaser.Scene {
 	    this.kirby.isGrounded = this.kirby.body.touching.down;
         // if so, we have jumps to spare
 	    if(this.kirby.isGrounded) {
-            //this.alien.anims.play('walk', true);
+            //this.kirby.anims.play('walk', true);
 	    	this.jumps = this.MAX_JUMPS;
 	    	this.jumping = false;
 	    } else {
@@ -116,7 +117,7 @@ class Play extends Phaser.Scene {
 	    } else {
 	    	//this.upKey.tint = 0xFFFFFF;
 	    }
-        // finally, letting go of the UP key subtracts a jump
+        // finally, letting go of the Space key subtracts a jump
         // see: https://photonstorm.github.io/phaser3-docs/Phaser.Input.Keyboard.html#.UpDuration__anchor
 	    if(this.jumping && Phaser.Input.Keyboard.UpDuration(keySPACE)) {
 	    	this.jumps--;
