@@ -10,11 +10,13 @@ class Play extends Phaser.Scene {
         this.load.spritesheet('gOver','GameOver.png',{frameWidth:640,framHeight:320,startFrame:0,endFrame:2});
         this.load.image('squareKirby', 'squareKirby.png');
         this.load.image('groundScroll', 'ground.png');
+        this.load.image('saltRing', 'saltRing.png');
     }
 
     create(){
         // place tile
         this.hell = this.add.tileSprite (0,0,640,320,'hell').setOrigin(0,0);
+        this.ring = this.physics.add.sprite(500, game.config.height/2-120, 'saltRing', 'side').setScale(SCALE);
         //this.player = new Player(this, game.config.width/2, game.config.height/2, 'squareKirby').setOrigin(0.5, 0);
         // define keys
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -73,6 +75,7 @@ class Play extends Phaser.Scene {
 
         // add physics collider
         this.physics.add.collider(this.kirby, this.ground); 
+        this.physics.add.collider(this.ring, this.ground);
 
         // set up Phaser-provided cursor key input
         //cursors = this.input.keyboard.createCursorKeys();
@@ -81,6 +84,7 @@ class Play extends Phaser.Scene {
 
     update(){
         this.hell.tilePositionX += this.SCROLL_SPEED;
+        this.ring.x -= 1;
         //game Over restarting choice
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)){
             this.scene.restart();
@@ -88,7 +92,9 @@ class Play extends Phaser.Scene {
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keySPACE)){
             this.scene.start("menuScene");
         }
-
+        if(this.ring.x == this.kirby.x) {
+            this.scene.start("menuScene");
+        }
         //make ground scroll
         this.groundScroll.tilePositionX += this.SCROLL_SPEED;
         // check if alien is grounded
