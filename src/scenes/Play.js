@@ -51,16 +51,15 @@ class Play extends Phaser.Scene {
         },null,this);
 
         //Jump Action
-        this.JUMP_VELOCITY = -700;
+        this.JUMP_VELOCITY = -500;
         this.SCROLL_SPEED = 4;
         this.MAX_JUMPS = 2;
-        //this.SCROLL_SPEED = 4;
         this.physics.world.gravity.y = 2600;
 
         // make ground tiles group
         this.ground = this.add.group();
         for(let i = 0; i < game.config.width; i += tileSize) {
-            let groundTile = this.physics.add.sprite(i, game.config.height - tileSize, 'squareKirby', 'block').setScale(SCALE).setOrigin(0);
+            let groundTile = this.physics.add.sprite(i, game.config.height - tileSize, 'groundScroll', 'block').setScale(tileSize).setOrigin(0);
             groundTile.body.immovable = true;
             groundTile.body.allowGravity = false;
             this.ground.add(groundTile);
@@ -76,10 +75,7 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.kirby, this.ground); 
 
         // set up Phaser-provided cursor key input
-        cursors = this.input.keyboard.createCursorKeys();
-
-        
- 
+        //cursors = this.input.keyboard.createCursorKeys();
     }
     
 
