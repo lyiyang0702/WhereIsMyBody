@@ -125,6 +125,4 @@ class Play extends Phaser.Scene {
 	    	this.jumping = false;
 	    }
     }
-=======
->>>>>>> Stashed changes
 }
