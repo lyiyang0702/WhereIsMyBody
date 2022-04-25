@@ -2,8 +2,6 @@ class Menu extends Phaser.Scene {
     constructor () {
         super ("menuScene");
     }
-<<<<<<< Updated upstream
-
     create (){
         let menuConfig = {
             fontFamily: 'Courier',
@@ -36,15 +34,4 @@ class Menu extends Phaser.Scene {
             this.scene.start('tutorialScene');
         }
     }
-
-=======
-    
-    create(){
-        game.stage.backgroundColor = "#4488AA";
-    }
-    
-    update(){
-        
-    }
->>>>>>> Stashed changes
 }
