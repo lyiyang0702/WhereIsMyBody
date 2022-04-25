@@ -21,15 +21,9 @@ let config = {
 
 let cursors;
 let game = new Phaser.Game(config);
-
-<<<<<<< Updated upstream
 // set UI sizes
 let borderPadding = game.config.height/ 25;
 //define keys
 let keySPACE, keyENTER;
 let keyR; //restart directly key
-=======
 let game = new Phaser.Game(config);
-
-// UI sizes
->>>>>>> Stashed changes
