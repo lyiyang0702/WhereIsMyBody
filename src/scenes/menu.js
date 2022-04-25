@@ -2,6 +2,7 @@ class Menu extends Phaser.Scene {
     constructor () {
         super ("menuScene");
     }
+<<<<<<< Updated upstream
 
     create (){
         let menuConfig = {
@@ -36,4 +37,14 @@ class Menu extends Phaser.Scene {
         }
     }
 
+=======
+    
+    create(){
+        game.stage.backgroundColor = "#4488AA";
+    }
+    
+    update(){
+        
+    }
+>>>>>>> Stashed changes
 }

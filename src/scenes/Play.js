@@ -2,6 +2,7 @@ class Play extends Phaser.Scene {
     constructor () {
         super ("playScene");
     }
+<<<<<<< Updated upstream
 
     preload(){
         //load images
@@ -124,4 +125,6 @@ class Play extends Phaser.Scene {
 	    	this.jumping = false;
 	    }
     }
+=======
+>>>>>>> Stashed changes
 }
