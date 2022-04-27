@@ -15,7 +15,7 @@ class Play extends Phaser.Scene {
         this.load.image('saltRing', 'saltRing.png');
     }
 
-    create(){
+    create(){ 
         // place tile
         this.hell = this.add.tileSprite (0,0,game.config.width,game.config.height,'hell').setOrigin(0,0);
         this.ring = this.physics.add.sprite(500, game.config.height/2-120, 'saltRing', 'side').setScale(SCALE);
@@ -112,5 +112,6 @@ class Play extends Phaser.Scene {
     //load gameOverScene
     gameOverFun(){
         this.scene.start("gameOverScene");
+        console.log("gameOver");
     }
 }
