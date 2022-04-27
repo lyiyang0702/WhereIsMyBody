@@ -27,13 +27,8 @@ class Play extends Phaser.Scene {
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         
         //Jump Action
-<<<<<<< Updated upstream
-        this.JUMP_VELOCITY = -500;
-        this.SCROLL_SPEED = 40;
-=======
         this.JUMP_VELOCITY = -400;
         this.SCROLL_SPEED = 2;
->>>>>>> Stashed changes
         this.MAX_JUMPS = 2;
         this.physics.world.gravity.y = 1500;
 
@@ -71,13 +66,8 @@ class Play extends Phaser.Scene {
 
     update(){
         //make background scroll
-<<<<<<< Updated upstream
-        this.hell.tilePositionX += 4;
-        this.ring.x -= 1;
-=======
         this.hell.tilePositionX += (this.SCROLL_SPEED);
         this.ring.x -= this.SCROLL_SPEED;
->>>>>>> Stashed changes
 
         //game Over restarting choice
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)){
@@ -115,20 +105,7 @@ class Play extends Phaser.Scene {
 	    	this.jumping = false;
 	    }
 
-<<<<<<< Updated upstream
-        // moving platform check
-        if (movePlatform.x >= game.config.width/2){
-            movePlatform.setVelocityX(-this.SCROLL_SPEED);
-        }
-        else if (movePlatform.x <= game.config.width/4){
-            movePlatform.setVelocityX(this.SCROLL_SPEED);
-        }
-        // wrap platforms
-        this.physics.world.wrap(Platform01, Platform01.width);
-        //collide
-=======
         //collide, and change to gameOverScene
->>>>>>> Stashed changes
         this.physics.add.overlap(this.kirby, this.ring, this.gameOverFun, null, this);
     }
 
@@ -136,5 +113,4 @@ class Play extends Phaser.Scene {
     gameOverFun(){
         this.scene.start("gameOverScene");
     }
-
 }
