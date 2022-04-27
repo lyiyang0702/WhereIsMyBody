@@ -64,13 +64,14 @@ class Play extends Phaser.Scene {
         this.groundScroll = this.add.tileSprite(0, game.config.height-tileSize, game.config.width, tileSize, 'groundScroll').setOrigin(0);
         
         // set up player
-        this.kirby = this.physics.add.sprite(180, game.config.height/2-tileSize, 'squareKirby', 'side').setScale(SCALE);
+        this.kirby = this.physics.add.sprite( 0, game.config.height/2-tileSize, 'squareKirby', 'side').setScale(SCALE);
+        this.kirby.setCollideWorldBounds(true);
 
         // add physics collider
         this.physics.add.collider(this.kirby, this.ground); 
         this.physics.add.collider(this.ring, this.ground);
         this.physics.add.collider(this.kirby, this.platformGroup);
-        this.physics.add.collider(this.kirby, this.platformGroup);
+        this.physics.add.collider(this.ring, this.platformGroup);
     }
     
     addPlatform(platformWidth, posX){
