@@ -16,7 +16,7 @@ class GameOver extends Phaser.Scene{
     create(){
         //define keys
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
 
         // gameOver animation
         this.anims.create({
@@ -41,14 +41,14 @@ class GameOver extends Phaser.Scene{
         this.over = this.add.sprite(game.config.width/2,game.config.height/2-5,'gOver')
         this.over.anims.play('gOverAnimation');
         this.add.text (game.config.width/2, game.config.height/2 + borderPadding *7, 'Press R to Restart', gOverConfig).setOrigin(0.5);
-        this.add.text (game.config.width/2, game.config.height/2 + borderPadding *10, 'Press SPACE for Menu', gOverConfig).setOrigin(0.5);
+        this.add.text (game.config.width/2, game.config.height/2 + borderPadding *10, 'Press M for Menu', gOverConfig).setOrigin(0.5);
     }
 
     update(){
         if (Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.start('playScene');    
         }
-        if (Phaser.Input.Keyboard.JustDown(keySPACE)){
+        if (Phaser.Input.Keyboard.JustDown(keyM)){
             this.scene.start('menuScene');
         }
   }

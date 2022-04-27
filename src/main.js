@@ -24,5 +24,5 @@ let game = new Phaser.Game(config);
 // set UI sizes
 let borderPadding = game.config.height/ 25;
 //define keys
-let keySPACE, keyENTER, keyR;
+let keySPACE, keyENTER, keyR, keyM;
 let movePlatform, Platform01;
