@@ -1,4 +1,4 @@
-const SCALE = 0.5;
+const SCALE = 1;
 const tileSize = 35;
 
 let config = {
@@ -25,3 +25,4 @@ let game = new Phaser.Game(config);
 let borderPadding = game.config.height/ 25;
 //define keys
 let keySPACE, keyENTER, keyR;
+let movePlatform, Platform01;

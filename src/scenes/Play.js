@@ -7,9 +7,11 @@ class Play extends Phaser.Scene {
         //load images
         this.load.path ='./assets/';
         this.load.image ('hell','Hell.png');
-        this.load.spritesheet('gOver','GameOver.png',{frameWidth:640,framHeight:320,startFrame:0,endFrame:2});
+        this.load.spritesheet('gOver','GameOver.png',{frameWidth:game.config.width,framHeight:game.config.height,startFrame:0,endFrame:2});
         this.load.image('squareKirby', 'squareKirby.png');
         this.load.image('groundScroll', 'ground.png');
+        // change platform image here
+        this.load.image('platform', 'stairs.png');
         this.load.image('saltRing', 'saltRing.png');
     }
 
@@ -17,6 +19,7 @@ class Play extends Phaser.Scene {
         // place tile
         this.hell = this.add.tileSprite (0,0,game.config.width,game.config.height,'hell').setOrigin(0,0);
         this.ring = this.physics.add.sprite(500, game.config.height/2-120, 'saltRing', 'side').setScale(SCALE);
+        this.randomNumber = Phaser.Math.Between(tileSize*7, game.config.width-tileSize*4);
         //this.player = new Player(this, game.config.width/2, game.config.height/2, 'squareKirby').setOrigin(0.5, 0);
         
         // define keys
@@ -55,7 +58,7 @@ class Play extends Phaser.Scene {
 
         //Jump Action
         this.JUMP_VELOCITY = -500;
-        this.SCROLL_SPEED = 4;
+        this.SCROLL_SPEED = 40;
         this.MAX_JUMPS = 2;
         this.physics.world.gravity.y = 2600;
 
@@ -67,10 +70,21 @@ class Play extends Phaser.Scene {
             groundTile.body.allowGravity = false;
             this.ground.add(groundTile);
         }
-        
+        Platform01 = this.physics.add.sprite(tileSize * 3, game.config.height - tileSize*3, 'platform','stair').setScale(SCALE).setOrigin(0);
+        Platform01.body.immovable = true;
+        Platform01.body.allowGravity = false;
+        Platform01.body.setVelocityX(-this.SCROLL_SPEED);
+        this.ground.add (Platform01);
+        // make platform tiles group
+        movePlatform = this.physics.add.sprite(tileSize * 4, game.config.height - tileSize*5, 'platform','stair').setScale(SCALE).setOrigin(0);
+        movePlatform.body.immovable = true;
+        movePlatform.body.allowGravity = false;
+        movePlatform.body.setVelocityX(50);
+        this.ground.add (movePlatform);
+
         // put another tile sprite above the ground tiles
         this.groundScroll = this.add.tileSprite(0, game.config.height-tileSize, game.config.width, tileSize, 'groundScroll').setOrigin(0);
-
+        
         // set up player
         this.kirby = this.physics.add.sprite(180, game.config.height/2-tileSize, 'squareKirby', 'side').setScale(SCALE);
 
@@ -85,7 +99,7 @@ class Play extends Phaser.Scene {
 
     update(){
         //make background scroll
-        this.hell.tilePositionX += this.SCROLL_SPEED;
+        this.hell.tilePositionX += 4;
         this.ring.x -= 1;
         //game Over restarting choice
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)){
@@ -124,5 +138,15 @@ class Play extends Phaser.Scene {
 	    	this.jumps--;
 	    	this.jumping = false;
 	    }
+
+        // moving platform check
+        if (movePlatform.x >= game.config.width/2){
+            movePlatform.setVelocityX(-this.SCROLL_SPEED);
+        }
+        else if (movePlatform.x <= game.config.width/4){
+            movePlatform.setVelocityX(this.SCROLL_SPEED);
+        }
+        // wrap platforms
+        this.physics.world.wrap(Platform01, Platform01.width);
     }
 }
