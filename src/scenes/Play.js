@@ -18,7 +18,7 @@ class Play extends Phaser.Scene {
     create(){ 
         // place tile
         this.hell = this.add.tileSprite (0,0,game.config.width,game.config.height,'hell').setOrigin(0,0);
-        this.ring = this.physics.add.sprite(500, game.config.height/2-120, 'saltRing', 'side').setScale(SCALE);
+        this.ring = this.physics.add.sprite(game.config.width*2, game.config.height/2-120, 'saltRing', 'side').setScale(SCALE);
 
         //this.player = new Player(this, game.config.width/2, game.config.height/2, 'squareKirby').setOrigin(0.5, 0);
         
@@ -58,19 +58,20 @@ class Play extends Phaser.Scene {
                 platform.scene.platformGroup.add(platform)
             }
         });
-        this.addPlatform(game.config.width, game.config.width / 2);
+        this.addPlatform(game.config.width/2, game.config.width / 2);
 
         // put another tile sprite above the ground tiles
         this.groundScroll = this.add.tileSprite(0, game.config.height-tileSize, game.config.width, tileSize, 'groundScroll').setOrigin(0);
         
         // set up player
-        this.kirby = this.physics.add.sprite( 0, game.config.height/2-tileSize, 'squareKirby', 'side').setScale(SCALE);
-        this.kirby.setCollideWorldBounds(true);
-
+        this.player = this.physics.add.sprite(game.config.width / 4, game.config.height/2-tileSize, 'squareKirby', 'side').setScale(4);
+        this.player.setCollideWorldBounds(true);
+        this.player.body.setVelocityX(150);
+        this.player.setBounce(0.2);
         // add physics collider
-        this.physics.add.collider(this.kirby, this.ground); 
+        this.physics.add.collider(this.player, this.ground); 
         this.physics.add.collider(this.ring, this.ground);
-        this.physics.add.collider(this.kirby, this.platformGroup);
+        this.physics.add.collider(this.player, this.platformGroup);
         this.physics.add.collider(this.ring, this.platformGroup);
     }
     
@@ -79,19 +80,19 @@ class Play extends Phaser.Scene {
         if(this.platformPool.getLength()){
             platform = this.platformPool.getFirst();
             platform.x = posX;
-            platform.active = true;
+            //platform.active = true;
             platform.visible = true;
             this.platformPool.remove(platform);
         }
         else{
-            platform = this.physics.add.sprite(posX, game.config.height * 0.8, "platform");
+            platform = this.physics.add.sprite(posX, game.config.height * 0.8, "platform").setScale(4);
             platform.setImmovable(true);
-            platform.setVelocityX(-50);
+            platform.setVelocityX(-200);
             platform.body.allowGravity = false;
             this.platformGroup.add(platform);
         }
         platform.displayWidth = platformWidth;
-        this.nextPlatformDistance = Phaser.Math.Between(10, 150);
+        this.nextPlatformDistance = Phaser.Math.Between(100, 300);
     }
 
     update(){
@@ -110,19 +111,19 @@ class Play extends Phaser.Scene {
         //make ground scroll
         this.groundScroll.tilePositionX += this.SCROLL_SPEED;
         // check if alien is grounded
-	    this.kirby.isGrounded = this.kirby.body.touching.down;
+	    this.player.isGrounded = this.player.body.touching.down;
         // if so, we have jumps to spare
-	    if(this.kirby.isGrounded) {
-            //this.kirby.anims.play('walk', true);
+	    if(this.player.isGrounded) {
+            //this.player.anims.play('walk', true);
 	    	this.jumps = this.MAX_JUMPS;
 	    	this.jumping = false;
 	    } else {
-	    	//this.kirby.anims.play('jump');
+	    	//this.player.anims.play('jump');
 	    }
         // allow steady velocity change up to a certain key down duration
         // see: https://photonstorm.github.io/phaser3-docs/Phaser.Input.Keyboard.html#.DownDuration__anchor
 	    if(this.jumps > 0 && Phaser.Input.Keyboard.DownDuration(keySPACE, 150)) {
-	        this.kirby.body.velocity.y = this.JUMP_VELOCITY;
+	        this.player.body.velocity.y = this.JUMP_VELOCITY;
 	        this.jumping = true;
 	        //this.upKey.tint = 0xFACADE;
 	    } else {
@@ -148,11 +149,11 @@ class Play extends Phaser.Scene {
  
         // adding new platforms
         if(minDistance > this.nextPlatformDistance){
-            var nextPlatformWidth = Phaser.Math.Between(20, 100);
+            var nextPlatformWidth = Phaser.Math.Between(50, 250);
             this.addPlatform(nextPlatformWidth, game.config.width + nextPlatformWidth / 2);
         }
         //collide, and change to gameOverScene
-        this.physics.add.overlap(this.kirby, this.ring, this.gameOverFun, null, this);
+        this.physics.add.overlap(this.player, this.ring, this.gameOverFun, null, this);
     }
 
     //load gameOverScene
