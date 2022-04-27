@@ -19,7 +19,7 @@ class Play extends Phaser.Scene {
         // place tile
         this.hell = this.add.tileSprite (0,0,game.config.width,game.config.height,'hell').setOrigin(0,0);
         this.ring = this.physics.add.sprite(500, game.config.height/2-120, 'saltRing', 'side').setScale(SCALE);
-        this.randomNumber = Phaser.Math.Between(tileSize*7, game.config.width-tileSize*4);
+
         //this.player = new Player(this, game.config.width/2, game.config.height/2, 'squareKirby').setOrigin(0.5, 0);
         
         // define keys
@@ -91,9 +91,6 @@ class Play extends Phaser.Scene {
         // add physics collider
         this.physics.add.collider(this.kirby, this.ground); 
         this.physics.add.collider(this.ring, this.ground);
-
-        // set up Phaser-provided cursor key input
-        //cursors = this.input.keyboard.createCursorKeys();
     }
     
 
@@ -101,6 +98,7 @@ class Play extends Phaser.Scene {
         //make background scroll
         this.hell.tilePositionX += 4;
         this.ring.x -= 1;
+
         //game Over restarting choice
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)){
             this.scene.restart();
@@ -108,9 +106,10 @@ class Play extends Phaser.Scene {
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keySPACE)){
             this.scene.start("menuScene");
         }
-        if((this.ring.x && this.ring.y) == (this.kirby.x && this.kirby.y)) {
-            this.scene.start("menuScene");
-        }
+        // if((this.ring.x && this.ring.y) == (this.kirby.x && this.kirby.y)) {
+        //     this.scene.start("menuScene");
+        // }
+
         //make ground scroll
         this.groundScroll.tilePositionX += this.SCROLL_SPEED;
         // check if alien is grounded
@@ -148,5 +147,12 @@ class Play extends Phaser.Scene {
         }
         // wrap platforms
         this.physics.world.wrap(Platform01, Platform01.width);
+        //collide
+        this.physics.add.overlap(this.kirby, this.ring, this.gameOverFun, null, this);
+    }
+
+    gameOverFun(){
+        this.gameOver = true;
+        this.scene.start("menuScene");
     }
 }
