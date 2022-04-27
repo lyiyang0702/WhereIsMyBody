@@ -40,17 +40,25 @@ class Play extends Phaser.Scene {
             groundTile.body.allowGravity = false;
             this.ground.add(groundTile);
         }
-        Platform01 = this.physics.add.sprite(tileSize * 3, game.config.height - tileSize*3, 'platform','stair').setScale(SCALE).setOrigin(0);
-        Platform01.body.immovable = true;
-        Platform01.body.allowGravity = false;
-        Platform01.body.setVelocityX(-this.SCROLL_SPEED);
-        this.ground.add (Platform01);
-        // make platform tiles group
-        movePlatform = this.physics.add.sprite(tileSize * 4, game.config.height - tileSize*5, 'platform','stair').setScale(SCALE).setOrigin(0);
-        movePlatform.body.immovable = true;
-        movePlatform.body.allowGravity = false;
-        movePlatform.body.setVelocityX(50);
-        this.ground.add (movePlatform);
+
+        // group with all active platforms.
+        this.platformGroup = this.add.group({
+ 
+            // once a platform is removed, it's added to the pool
+            removeCallback: function(platform){
+                platform.scene.platformPool.add(platform)
+            }
+        });
+ 
+        // pool
+        this.platformPool = this.add.group({
+ 
+            // once a platform is removed from the pool, it's added to the active platforms group
+            removeCallback: function(platform){
+                platform.scene.platformGroup.add(platform)
+            }
+        });
+        this.addPlatform(game.config.width, game.config.width / 2);
 
         // put another tile sprite above the ground tiles
         this.groundScroll = this.add.tileSprite(0, game.config.height-tileSize, game.config.width, tileSize, 'groundScroll').setOrigin(0);
@@ -61,8 +69,29 @@ class Play extends Phaser.Scene {
         // add physics collider
         this.physics.add.collider(this.kirby, this.ground); 
         this.physics.add.collider(this.ring, this.ground);
+        this.physics.add.collider(this.kirby, this.platformGroup);
+        this.physics.add.collider(this.kirby, this.platformGroup);
     }
     
+    addPlatform(platformWidth, posX){
+        let platform;
+        if(this.platformPool.getLength()){
+            platform = this.platformPool.getFirst();
+            platform.x = posX;
+            platform.active = true;
+            platform.visible = true;
+            this.platformPool.remove(platform);
+        }
+        else{
+            platform = this.physics.add.sprite(posX, game.config.height * 0.8, "platform");
+            platform.setImmovable(true);
+            platform.setVelocityX(-50);
+            platform.body.allowGravity = false;
+            this.platformGroup.add(platform);
+        }
+        platform.displayWidth = platformWidth;
+        this.nextPlatformDistance = Phaser.Math.Between(10, 150);
+    }
 
     update(){
         //make background scroll
@@ -105,6 +134,22 @@ class Play extends Phaser.Scene {
 	    	this.jumping = false;
 	    }
 
+        // recycling platforms
+        let minDistance = game.config.width;
+        this.platformGroup.getChildren().forEach(function(platform){
+            let platformDistance = game.config.width - platform.x - platform.displayWidth / 2;
+            minDistance = Math.min(minDistance, platformDistance);
+            if(platform.x < - platform.displayWidth / 2){
+                this.platformGroup.killAndHide(platform);
+                this.platformGroup.remove(platform);
+            }
+        }, this);
+ 
+        // adding new platforms
+        if(minDistance > this.nextPlatformDistance){
+            var nextPlatformWidth = Phaser.Math.Between(20, 100);
+            this.addPlatform(nextPlatformWidth, game.config.width + nextPlatformWidth / 2);
+        }
         //collide, and change to gameOverScene
         this.physics.add.overlap(this.kirby, this.ring, this.gameOverFun, null, this);
     }
