@@ -25,42 +25,17 @@ class Play extends Phaser.Scene {
         // define keys
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-        //game Over trigger
-        this.gameOver = false;
-        // gameOver animation
-        this.anims.create({
-            key:'gOverAnimation',
-            frames:this.anims.generateFrameNumbers('gOver',{start:0, end: 2, first: 0}),
-            frameRate:10,
-            repeat:-1
-        });
-        let gOverConfig = {
-            fontFamily: 'Courier',
-            fontSize: '24px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
-            align: 'right',
-            padding: {
-                top:5,
-                bottom: 5,
-            },
-            fixedWidth: 0
-        }
-        //statement set to count down time of 15 second
-        //statement will be change after collision feature add in
-        this.clock = this.time.delayedCall(15000,() =>{
-          this.gg = this.add.sprite(game.config.width/2,game.config.height/2-5,'gOver')
-          this.gg.anims.play('gOverAnimation');
-          this.add.text (game.config.width/2, game.config.height/2 + borderPadding *7, 'Press R to Restart', gOverConfig).setOrigin(0.5);
-          this.add.text (game.config.width/2, game.config.height/2 + borderPadding *10, 'Press SPACE for Menu', gOverConfig).setOrigin(0.5);
-          this.gameOver = true;
-        },null,this);
-
+        
         //Jump Action
+<<<<<<< Updated upstream
         this.JUMP_VELOCITY = -500;
         this.SCROLL_SPEED = 40;
+=======
+        this.JUMP_VELOCITY = -400;
+        this.SCROLL_SPEED = 2;
+>>>>>>> Stashed changes
         this.MAX_JUMPS = 2;
-        this.physics.world.gravity.y = 2600;
+        this.physics.world.gravity.y = 1500;
 
         // make ground tiles group
         this.ground = this.add.group();
@@ -96,8 +71,13 @@ class Play extends Phaser.Scene {
 
     update(){
         //make background scroll
+<<<<<<< Updated upstream
         this.hell.tilePositionX += 4;
         this.ring.x -= 1;
+=======
+        this.hell.tilePositionX += (this.SCROLL_SPEED);
+        this.ring.x -= this.SCROLL_SPEED;
+>>>>>>> Stashed changes
 
         //game Over restarting choice
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)){
@@ -106,9 +86,6 @@ class Play extends Phaser.Scene {
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keySPACE)){
             this.scene.start("menuScene");
         }
-        // if((this.ring.x && this.ring.y) == (this.kirby.x && this.kirby.y)) {
-        //     this.scene.start("menuScene");
-        // }
 
         //make ground scroll
         this.groundScroll.tilePositionX += this.SCROLL_SPEED;
@@ -138,6 +115,7 @@ class Play extends Phaser.Scene {
 	    	this.jumping = false;
 	    }
 
+<<<<<<< Updated upstream
         // moving platform check
         if (movePlatform.x >= game.config.width/2){
             movePlatform.setVelocityX(-this.SCROLL_SPEED);
@@ -148,11 +126,15 @@ class Play extends Phaser.Scene {
         // wrap platforms
         this.physics.world.wrap(Platform01, Platform01.width);
         //collide
+=======
+        //collide, and change to gameOverScene
+>>>>>>> Stashed changes
         this.physics.add.overlap(this.kirby, this.ring, this.gameOverFun, null, this);
     }
 
+    //load gameOverScene
     gameOverFun(){
-        this.gameOver = true;
-        this.scene.start("menuScene");
+        this.scene.start("gameOverScene");
     }
+
 }
