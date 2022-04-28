@@ -13,6 +13,7 @@ class Play extends Phaser.Scene {
         // change platform image here
         this.load.image('platform', 'stairs.png');
         this.load.image('saltRing', 'saltRing.png');
+        this.load.spritesheet('pressEnter', 'EnterSpritesheet.png',{frameWidth:game.config.width,framHeight:game.config.height,startFrame:0,endFrame:3});
     }
 
     create(){ 
@@ -27,7 +28,7 @@ class Play extends Phaser.Scene {
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         
         //Jump Action
-        this.JUMP_VELOCITY = -400;
+        this.JUMP_VELOCITY = -500;
         this.SCROLL_SPEED = 2;
         this.MAX_JUMPS = 2;
         this.physics.world.gravity.y = 1500;
@@ -66,10 +67,10 @@ class Play extends Phaser.Scene {
         // set up player
         this.player = this.physics.add.sprite(game.config.width / 4, game.config.height/2-tileSize, 'squareKirby', 'side').setScale(4);
         this.player.setCollideWorldBounds(true);
-        this.player.body.setVelocityX(150);
+        //this.player.body.setVelocityX(150);
         this.player.setBounce(0.2);
         // add physics collider
-        this.physics.add.collider(this.player, this.ground); 
+        //this.physics.add.collider(this.player, this.ground); 
         this.physics.add.collider(this.ring, this.ground);
         this.physics.add.collider(this.player, this.platformGroup);
         this.physics.add.collider(this.ring, this.platformGroup);
@@ -117,8 +118,10 @@ class Play extends Phaser.Scene {
             //this.player.anims.play('walk', true);
 	    	this.jumps = this.MAX_JUMPS;
 	    	this.jumping = false;
+            this.player.body.setVelocityX(150);
 	    } else {
 	    	//this.player.anims.play('jump');
+            this.player.body.setVelocityX(0);
 	    }
         // allow steady velocity change up to a certain key down duration
         // see: https://photonstorm.github.io/phaser3-docs/Phaser.Input.Keyboard.html#.DownDuration__anchor
@@ -154,6 +157,7 @@ class Play extends Phaser.Scene {
         }
         //collide, and change to gameOverScene
         this.physics.add.overlap(this.player, this.ring, this.gameOverFun, null, this);
+        this.physics.add.overlap(this.player, this.ground, this.gameOverFun, null, this);
     }
 
     //load gameOverScene

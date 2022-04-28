@@ -3,15 +3,15 @@ class GameOver extends Phaser.Scene{
         super ("gameOverScene");
     }
 
-    preload(){
-        //load images
-        this.load.path ='./assets/';
-        this.load.image ('hell','Hell.png');
-        this.load.spritesheet('gOver','GameOver.png',{frameWidth:640,framHeight:320,startFrame:0,endFrame:2});
-        this.load.image('squareKirby', 'squareKirby.png');
-        this.load.image('groundScroll', 'ground.png');
-        this.load.image('saltRing', 'saltRing.png');
-    }
+    // preload(){
+    //     //load images
+    //     this.load.path ='./assets/';
+    //     this.load.image ('hell','Hell.png');
+    //     this.load.spritesheet('gOver','GameOver.png',{frameWidth:1280,framHeight:720,startFrame:0,endFrame:2});
+    //     this.load.image('squareKirby', 'squareKirby.png');
+    //     this.load.image('groundScroll', 'ground.png');
+    //     this.load.image('saltRing', 'saltRing.png');
+    // }
 
     create(){
         //define keys
@@ -38,7 +38,7 @@ class GameOver extends Phaser.Scene{
             fixedWidth: 0
         }
 
-        this.over = this.add.sprite(game.config.width/2,game.config.height/2-5,'gOver')
+        this.over = this.add.sprite(game.config.width/2,game.config.height/2-5,'gOver');
         this.over.anims.play('gOverAnimation');
         this.add.text (game.config.width/2, game.config.height/2 + borderPadding *7, 'Press R to Restart', gOverConfig).setOrigin(0.5);
         this.add.text (game.config.width/2, game.config.height/2 + borderPadding *10, 'Press M for Menu', gOverConfig).setOrigin(0.5);
