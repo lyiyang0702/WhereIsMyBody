@@ -6,10 +6,14 @@ class Play extends Phaser.Scene {
     preload(){
         //load images
         this.load.path ='./assets/';
-        this.load.image ('hell','Hell.png');
+        //this.load.image ('hell','Hell.png');
         this.load.spritesheet('gOver','GameOver.png',{frameWidth:game.config.width/2,framHeight:game.config.height/2,startFrame:0,endFrame:2});
+        this.load.image ('hell','BackgroundNoMove.png');
+        this.load.image ('hell2','BackgroundMountain.png');
+        this.load.spritesheet('gOver','GameOver.png',{frameWidth:game.config.width,framHeight:game.config.height,startFrame:0,endFrame:2});
         this.load.image('squareKirby', 'squareKirby.png');
         this.load.image('groundScroll', 'ground.png');
+        this.load.image('ground', 'BackgroundPlatform.png');
         // change platform image here
         this.load.image('platform', 'stairs.png');
         this.load.image('saltRing', 'saltRing.png');
@@ -27,6 +31,9 @@ class Play extends Phaser.Scene {
         // place tile
         this.hell = this.add.tileSprite (0,0,game.config.width,game.config.height,'hell').setOrigin(0,0);
         this.ring = this.physics.add.sprite(game.config.width*2, game.config.height/2-120, 'saltRing', 'side').setScale(SCALE);
+        this.hell2 = this.add.tileSprite (0,0,game.config.width,game.config.height,'hell2').setOrigin(0,0);
+        this.mainGround = this.add.tileSprite (0,0,game.config.width,game.config.height,'ground').setOrigin(0,0);
+        //this.ring = this.physics.add.sprite(500, game.config.height/2-120, 'saltRing', 'side').setScale(SCALE);
 
         //this.player = new Player(this, game.config.width/2, game.config.height/2, 'squareKirby').setOrigin(0.5, 0);
         
@@ -43,9 +50,10 @@ class Play extends Phaser.Scene {
         // make ground tiles group
         this.ground = this.add.group();
         for(let i = 0; i < game.config.width; i += tileSize) {
-            let groundTile = this.physics.add.sprite(i, game.config.height - tileSize, 'groundScroll', 'block').setScale(tileSize).setOrigin(0);
+            let groundTile = this.physics.add.sprite(i, game.config.height - tileSize*4.5, 'groundScroll', 'block').setScale(tileSize).setOrigin(0);
             groundTile.body.immovable = true;
             groundTile.body.allowGravity = false;
+            groundTile.visible = false;
             this.ground.add(groundTile);
         }
 
@@ -80,7 +88,6 @@ class Play extends Phaser.Scene {
         //this.physics.add.collider(this.player, this.ground); 
         this.physics.add.collider(this.ring, this.ground);
         this.physics.add.collider(this.player, this.platformGroup);
-        this.physics.add.collider(this.ring, this.platformGroup);
     }
     
     addPlatform(platformWidth, posX){
@@ -113,6 +120,8 @@ class Play extends Phaser.Scene {
         //make background scroll
         this.hell.tilePositionX += (this.SCROLL_SPEED);
         this.ring.x -= this.SCROLL_SPEED;
+        this.hell2.tilePositionX += (this.SCROLL_SPEED) + 1;
+        this.mainGround.tilePositionX += (this.SCROLL_SPEED) + 2;
 
         //game Over restarting choice
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)){
