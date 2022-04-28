@@ -26,3 +26,4 @@ let borderPadding = game.config.height/ 25;
 //define keys
 let keySPACE, keyENTER, keyR, keyM;
 let movePlatform, Platform01;
+let music, gOverConfig;

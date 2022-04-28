@@ -13,10 +13,17 @@ class Play extends Phaser.Scene {
         // change platform image here
         this.load.image('platform', 'stairs.png');
         this.load.image('saltRing', 'saltRing.png');
-        this.load.spritesheet('pressEnter', 'EnterSpritesheet.png',{frameWidth:game.config.width,framHeight:game.config.height,startFrame:0,endFrame:3});
+        this.load.spritesheet('pressEnter', 'EnterSpritesheet.png',{frameWidth:game.config.width/2,framHeight:game.config.height/2,startFrame:0,endFrame:3});
+        //bgm
+        //this.load.audio('bgm', 'backgroundMusic.mp3');
     }
 
     create(){ 
+        // //bgm
+        // let music = this.sound.add('bgm');
+        // music.setLoop(true);
+        // music.play();
+
         // place tile
         this.hell = this.add.tileSprite (0,0,game.config.width,game.config.height,'hell').setOrigin(0,0);
         this.ring = this.physics.add.sprite(game.config.width*2, game.config.height/2-120, 'saltRing', 'side').setScale(SCALE);
@@ -96,6 +103,12 @@ class Play extends Phaser.Scene {
         this.nextPlatformDistance = Phaser.Math.Between(100, 300);
     }
 
+    //load gameOverScene
+    gameOverFun(){
+        this.scene.start("gameOverScene");
+        console.log("gameOver");
+    }
+
     update(){
         //make background scroll
         this.hell.tilePositionX += (this.SCROLL_SPEED);
@@ -118,7 +131,7 @@ class Play extends Phaser.Scene {
             //this.player.anims.play('walk', true);
 	    	this.jumps = this.MAX_JUMPS;
 	    	this.jumping = false;
-            this.player.body.setVelocityX(150);
+            this.player.body.setVelocityX(200);
 	    } else {
 	    	//this.player.anims.play('jump');
             this.player.body.setVelocityX(0);
@@ -158,11 +171,5 @@ class Play extends Phaser.Scene {
         //collide, and change to gameOverScene
         this.physics.add.overlap(this.player, this.ring, this.gameOverFun, null, this);
         this.physics.add.overlap(this.player, this.ground, this.gameOverFun, null, this);
-    }
-
-    //load gameOverScene
-    gameOverFun(){
-        this.scene.start("gameOverScene");
-        console.log("gameOver");
     }
 }

@@ -3,6 +3,10 @@ class Menu extends Phaser.Scene {
         super ("menuScene");
     }
 
+    preload(){
+        this.load.audio('bgm', './assets/backgroundMusic.mp3');
+    }
+
 
     create (){
         let menuConfig = {
@@ -17,13 +21,20 @@ class Menu extends Phaser.Scene {
             },
             fixedWidth: 0
         }
+
         // show menu text
         this.add.text (game.config.width/2, game.config.height/2 - borderPadding *5, 'WHERE IS MY BODY',menuConfig).setOrigin(0.5);
         this.add.text (game.config.width/2, game.config.height/2 , 'Press SPACE to START', menuConfig).setOrigin(0.5);
         this.add.text (game.config.width/2, game.config.height/2 + borderPadding *5, 'Press ENTER for Ghost 101', menuConfig).setOrigin(0.5);
+        
         //define keys
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+
+        //bgm
+        let music = this.sound.add('bgm');
+        music.setLoop(true);
+        music.play();
     }
 
     update(){
