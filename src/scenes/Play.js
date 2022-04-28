@@ -7,7 +7,7 @@ class Play extends Phaser.Scene {
         //load images
         this.load.path ='./assets/';
         this.load.image ('hell','Hell.png');
-        this.load.spritesheet('gOver','GameOver.png',{frameWidth:game.config.width,framHeight:game.config.height,startFrame:0,endFrame:2});
+        this.load.spritesheet('gOver','GameOver.png',{frameWidth:game.config.width/2,framHeight:game.config.height/2,startFrame:0,endFrame:2});
         this.load.image('squareKirby', 'squareKirby.png');
         this.load.image('groundScroll', 'ground.png');
         // change platform image here

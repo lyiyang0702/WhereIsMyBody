@@ -3,16 +3,6 @@ class GameOver extends Phaser.Scene{
         super ("gameOverScene");
     }
 
-    // preload(){
-    //     //load images
-    //     this.load.path ='./assets/';
-    //     this.load.image ('hell','Hell.png');
-    //     this.load.spritesheet('gOver','GameOver.png',{frameWidth:1280,framHeight:720,startFrame:0,endFrame:2});
-    //     this.load.image('squareKirby', 'squareKirby.png');
-    //     this.load.image('groundScroll', 'ground.png');
-    //     this.load.image('saltRing', 'saltRing.png');
-    // }
-
     create(){
         //define keys
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
