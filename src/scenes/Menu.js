@@ -7,12 +7,6 @@ class Menu extends Phaser.Scene {
         this.load.audio('bgm', './assets/backgroundMusic.mp3');
     }
 
-    /* preload(){
-        //load images
-        this.load.path ='./assets/';
-        this.load.image ('hell','Hell.png');
-    } */
-
     create (){
 
         let menuConfig = {
