@@ -26,4 +26,4 @@ let game = new Phaser.Game(config);
 let borderPadding = game.config.height/ 25;
 //define keys
 let keySPACE, keyENTER, keyR, keyM;
-let music, gOverConfig, platform,randomSpawn,randomDistance, timer,text, addedPlatforms;
+let music, gOverConfig, platform,randomSpawn,randomDistance, timeInSeconds,text, addedPlatforms;

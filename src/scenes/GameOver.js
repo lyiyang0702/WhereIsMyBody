@@ -32,6 +32,10 @@ class GameOver extends Phaser.Scene{
         this.over.anims.play('gOverAnimation');
         this.add.text (game.config.width/2, game.config.height/2 + borderPadding *7, 'Press R to Restart', gOverConfig).setOrigin(0.5);
         this.add.text (game.config.width/2, game.config.height/2 + borderPadding *10, 'Press M for Menu', gOverConfig).setOrigin(0.5);
+        let timeTextStyle = {font: "35px Roboto", fill: '#E43AA4', stroke: '#000', strokeThickness: 4}; 
+        // Display score
+        text = this.add.text(game.config.width/2, game.config.height/2+ borderPadding *5,"",timeTextStyle).setOrigin(0.5);
+        text.setText("Score: " + timeInSeconds + " s");
     }
 
     update(){

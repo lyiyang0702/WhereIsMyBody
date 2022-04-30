@@ -14,7 +14,7 @@ class Play extends Phaser.Scene {
         this.load.image('squareKirby', 'squareKirby.png');
         this.load.image('ground', 'BackgroundPlatform.png');
         // change platform image here
-        this.load.image('platform', 'stairs.png');
+        this.load.image('platform', 'ground.png');
         this.load.image('saltRing', 'saltRing.png');
         this.load.spritesheet('pressEnter', 'EnterSpritesheet.png',{frameWidth:game.config.width/2,framHeight:game.config.height/2,startFrame:0,endFrame:3});
     }
@@ -22,11 +22,11 @@ class Play extends Phaser.Scene {
     create(){ 
         // place tile
         this.hell = this.add.tileSprite (0,0,game.config.width,game.config.height,'hell').setOrigin(0,0);
-        this.ring = this.physics.add.sprite(game.config.width, game.config.height/2-120, 'saltRing', 'side').setScale(SCALE);
+        this.ring = this.physics.add.sprite(game.config.width, game.config.height/2, 'saltRing', 'side').setScale(SCALE);
         this.ring.body.gravity = false;
         this.hell2 = this.add.tileSprite (0,0,game.config.width,game.config.height,'hell2').setOrigin(0,0);
         this.mainGround = this.add.tileSprite (0,0,game.config.width,game.config.height,'ground').setOrigin(0,0);
-        //this.ring = this.physics.add.sprite(500, game.config.height/2-120, 'saltRing', 'side').setScale(SCALE);
+       
         // set up player
         this.player = this.physics.add.sprite(game.config.width / 4, game.config.height/2-tileSize, 'squareKirby', 'side').setScale(4);
         this.player.setCollideWorldBounds(true);
@@ -40,11 +40,12 @@ class Play extends Phaser.Scene {
         this.JUMP_VELOCITY = -500;
         this.SCROLL_SPEED = 2;
         this.MAX_JUMPS = 2;
+        this.RING_SPEED = -200;
         this.physics.world.gravity.y = 1500;
         this.PLATFORM_SPEED = -200;
         addedPlatforms = 0;
 
-        // random paltform distances
+        // random paltform properties
         randomSpawn = [100,200];
         randomDistance = [100,200];
         // make ground tiles group
@@ -64,7 +65,6 @@ class Play extends Phaser.Scene {
                 platform.scene.platformPool.add(platform)
             }
         });
- 
         // pool
         this.platformPool = this.add.group({
  
@@ -100,21 +100,32 @@ class Play extends Phaser.Scene {
         
         
         // add physics collider
-        //this.physics.add.collider(this.player, this.ground); 
         this.physics.add.collider(this.ring, this.platformGroup);
         this.physics.add.collider(this.player, this.platformGroup);
         this.physics.add.collider(this.platformGroup, this.ring);
         this.physics.add.collider(this.player, this.ringGroup);
         this.physics.add.collider(this.ringGroup, this.platformGroup);
 
-        // Display time
+        // Time
+        timeInSeconds = 0;
         let timeTextStyle = {font: "35px Roboto", fill: '#E43AA4', stroke: '#000', strokeThickness: 4}; 
         text = this.add.text(tileSize,tileSize,"",timeTextStyle);
+        // display 0 seconds
+        text.setText("Time Survived: " + timeInSeconds + " s");
+        this.timer = this.time.addEvent({
+            delay:1000,
+            callback: this.tick,
+            loop: true,
+        });
     }
+    tick(){
+        timeInSeconds++;
+        // Display time
+        text.setText("Time Survived: " + timeInSeconds + " s");
 
+    }
     addPlatform(platformWidth, posX, posY){
         addedPlatforms++;
-        //console.log(addedPlatforms);
 
         if(this.platformPool.getLength()){
             platform = this.platformPool.getFirst();
@@ -124,25 +135,29 @@ class Play extends Phaser.Scene {
             this.platformPool.remove(platform);
         }
         else{
-            platform = this.physics.add.sprite(posX, game.config.height * 0.8, "platform").setScale(4);
+            platform = this.physics.add.sprite(posX, game.config.height * 0.8, "platform").setScale(0.5);
             platform.setImmovable(true);
             platform.setVelocityX(this.PLATFORM_SPEED);
+            // Change platform speed
+            this.platformSpeed= this.time.delayedCall(1000,() =>{
+                this.PLATFORM_SPEED -= 1;
+            },null,this);
             platform.body.allowGravity = false;
             this.platformGroup.add(platform);
         }
         platform.displayWidth = platformWidth;
         this.nextPlatformDistance = Phaser.Math.Between(randomSpawn[0], randomSpawn[1]);
         // change gap size
-        if (randomSpawn[0]<=300){
-            randomSpawn[0] += 10;
-        }
-        if (randomSpawn[1]>=500){
-            randomSpawn[1] += 10;
-        }
-
+        this.randomGap= this.time.delayedCall(5000,() =>{
+            if (randomSpawn[0]<=300){
+                randomSpawn[0] += 10;
+            }
+            if (randomSpawn[1]>=500){
+                randomSpawn[1] += 10;
+            }
+        },null,this);
         // if this is not the starting platform...
         if(addedPlatforms > 1){
- 
             // is there a coin over the platform?
             if(Phaser.Math.Between(1, 100) <= config.ringPercent){
                 if(this.ringPool.getLength()){
@@ -152,16 +167,18 @@ class Play extends Phaser.Scene {
                     ring.alpha = 1;
                     ring.active = true;
                     ring.visible = true;
-                    //ring.body.allowGravity = false;
                     this.ringPool.remove(ring);
                 }
                 else{
-                    let ring = this.physics.add.sprite(posX, posY - 30, "saltRing");
+                    
+                    let ring = this.physics.add.sprite(posX, posY - 30 , "saltRing");
                     ring.setImmovable(true);
-                    ring.setVelocityX(this.PLATFORM_SPEED);
+                    ring.setVelocityX(this.RING_SPEED);
+                    // Change ring speed
+                    this.ringSpeed= this.time.delayedCall(5000,() =>{
+                        this.RING_SPEED -= 20;
+                      },null,this);
                     ring.body.allowGravity = false;
-                    //ring.anims.play("rotate");
-                    //ring.setDepth(2);
                     this.ringGroup.add(ring);
                 }
             }
@@ -181,8 +198,6 @@ class Play extends Phaser.Scene {
     }
 
     update(){
-        timer = this.time.now * 0.001;
-        //console.log(timer);
         //make background scroll
         this.hell.tilePositionX += (this.SCROLL_SPEED);
         this.ring.x -= this.SCROLL_SPEED;
@@ -243,23 +258,19 @@ class Play extends Phaser.Scene {
         if(minDistance > this.nextPlatformDistance){
             var nextPlatformWidth = Phaser.Math.Between(randomDistance[0],randomDistance[1]);
             // change platform width
-            if (randomDistance[0]>=30){
-                randomDistance[0] -= 10;
-            }
-            if (randomDistance[1]>=50){
-                randomDistance[1] -= 10;
-            }
+            this.randomDis= this.time.delayedCall(5000,() =>{
+                if (randomDistance[0]>=30){
+                    randomDistance[0] -= 10;
+                }
+                if (randomDistance[1]>=50){
+                    randomDistance[1] -= 10;
+                }
+            },null,this);
             this.addPlatform(nextPlatformWidth, game.config.width + nextPlatformWidth / 2, game.config.height / 5 * 4);
-            // let rand = Math.floor(Math.random(30));
-            // if(rand % 3 == 0){
-                
-            // }
         }
         //collide, and change to gameOverScene
         this.physics.add.overlap(this.player, this.ring, this.gameOverFun, this.checkGameoverFlag() , this);
         this.physics.add.overlap(this.player, this.ground, this.gameOverFun, this.checkGameoverFlag(), this);
-        // Display time
-        text.setText("Time Survived: " + Math.round(timer) + " seconds");
 
     }
 }
