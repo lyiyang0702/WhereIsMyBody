@@ -12,6 +12,7 @@ class Play extends Phaser.Scene {
         this.load.image ('hell2','BackgroundMountain.png');
         this.load.spritesheet('gOver','GameOver.png',{frameWidth:game.config.width,framHeight:game.config.height,startFrame:0,endFrame:2});
         this.load.image('squareKirby', 'squareKirby.png');
+        this.load.spritesheet('runGhost','TrueRunningGhost.png',{frameWidth:720,framHeight:720,startFrame:0,endFrame:2});
         this.load.image('ground', 'BackgroundPlatform.png');
         // change platform image here
         this.load.image('platform', 'ground.png');
@@ -26,9 +27,17 @@ class Play extends Phaser.Scene {
         this.ring.body.gravity = false;
         this.hell2 = this.add.tileSprite (0,0,game.config.width,game.config.height,'hell2').setOrigin(0,0);
         this.mainGround = this.add.tileSprite (0,0,game.config.width,game.config.height,'ground').setOrigin(0,0);
-       
+        
+        this.anims.create({
+            key:'ghostAnimation',
+            frames:this.anims.generateFrameNumbers('runGhost',{start:0, end: 2, first: 0}),
+            frameRate:10,
+            repeat:-1
+        });
+
         // set up player
-        this.player = this.physics.add.sprite(game.config.width / 4, game.config.height/2-tileSize, 'squareKirby', 'side').setScale(3);
+        this.player = this.physics.add.sprite(game.config.width / 4, game.config.height/2-tileSize, 'ghostAnimation', 'side').setScale(0.1);
+        this.player.anims.play('ghostAnimation');
         this.player.setCollideWorldBounds(true);
         this.player.setBounce(0.2);
         
