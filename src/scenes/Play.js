@@ -1,3 +1,4 @@
+let bgmMusic;
 class Play extends Phaser.Scene {
     constructor () {
         super ("playScene");
@@ -18,6 +19,9 @@ class Play extends Phaser.Scene {
         this.load.image('platform', 'ground.png');
         this.load.image('saltRing', 'saltRing.png');
         this.load.spritesheet('pressEnter', 'EnterSpritesheet.png',{frameWidth:game.config.width/2,framHeight:game.config.height/2,startFrame:0,endFrame:3});
+        this.load.audio('jump', 'jump.wav');    
+        this.load.audio('select', 'selectSound.wav');
+        this.load.audio('backMusic', 'backgroundMusic.mp3');
     }
 
     create(){ 
@@ -126,6 +130,10 @@ class Play extends Phaser.Scene {
             callback: this.tick,
             loop: true,
         });
+
+    bgmMusic = this.sound.add('backMusic');
+    bgmMusic.setLoop(true);
+    bgmMusic.play();
     }
     tick(){
         timeInSeconds++;
@@ -202,7 +210,9 @@ class Play extends Phaser.Scene {
     gameOverFun(){
         if (this.gameOverFlag){
             this.scene.start("gameOverScene");
+            bgmMusic.stop();
             this.gameOverFlag = false;
+
         }
     }
 
@@ -215,9 +225,13 @@ class Play extends Phaser.Scene {
         this.gameOverFlag = true;
         //game Over restarting choice
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)){
+            /* let music = this.sound.add('select');
+            music.play(); */
             this.scene.restart();
         }
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keySPACE)){
+            /* let music = this.sound.add('select');
+            music.play(); */
             this.scene.start("menuScene");
         }
         // check if alien is grounded
@@ -237,6 +251,10 @@ class Play extends Phaser.Scene {
 	    if(this.jumps > 0 && Phaser.Input.Keyboard.DownDuration(keySPACE, 150)) {
 	        this.player.body.velocity.y = this.JUMP_VELOCITY;
 	        this.jumping = true;
+        }
+        if(this.jumps > 0 && Phaser.Input.Keyboard.JustDown(keySPACE)) {
+            let music = this.sound.add('jump');
+            music.play();
         }
         // finally, letting go of the Space key subtracts a jump
         // see: https://photonstorm.github.io/phaser3-docs/Phaser.Input.Keyboard.html#.UpDuration__anchor

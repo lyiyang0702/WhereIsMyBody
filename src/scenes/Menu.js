@@ -1,14 +1,15 @@
+let menuMusic;
 class Menu extends Phaser.Scene {
     constructor () {
         super ("menuScene");
     }
 
     preload(){
-        this.load.audio('bgm', './assets/backgroundMusic.mp3');
+        this.load.audio('bgm', './assets/menuSong.wav');
+        this.load.audio('select', './assets/selectSound.wav');
     }
 
     create (){
-
         let menuConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
@@ -32,19 +33,24 @@ class Menu extends Phaser.Scene {
         keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
         //bgm
-        let music = this.sound.add('bgm');
-        music.setLoop(true);
-        music.play();
+        menuMusic = this.sound.add('bgm');
+        menuMusic.setLoop(true);
+        menuMusic.play();
     }
 
     update(){
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
-            this.scene.start('playScene');    
+            this.scene.start('playScene');   
+            let music = this.sound.add('select');
+            music.play();
+            menuMusic.stop();
         }
 
         // open tutorial
         if (Phaser.Input.Keyboard.JustDown(keyENTER)){
             this.scene.start('tutorialScene');
+            let music = this.sound.add('select');
+            music.play();
         }
     }
 }

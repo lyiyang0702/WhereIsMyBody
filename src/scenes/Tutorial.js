@@ -6,6 +6,7 @@ class Tutorial extends Phaser.Scene {
     preload() {
         this.load.path ='./assets/';
         this.load.image ('tutorial','tutorial.png');
+        this.load.audio('select', 'selectSound.wav');
     }
 
     create(){
@@ -34,6 +35,9 @@ class Tutorial extends Phaser.Scene {
     }
     update(){
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
+            let music = this.sound.add('select');
+            music.play();
+            menuMusic.stop();
             this.scene.start('playScene');    
         }
     }

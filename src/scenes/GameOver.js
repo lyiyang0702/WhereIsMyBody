@@ -1,8 +1,13 @@
-class GameOver extends Phaser.Scene{
+//let menuMusic1;
+class GameOver extends Phaser.Scene {
     constructor(){
         super ("gameOverScene");
     }
 
+    preload() {
+        this.load.audio('select', './assets/selectSound.wav');
+        this.load.audio('bgm', './assets/menuSong.wav');
+    }
     create(){
         //define keys
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -36,13 +41,21 @@ class GameOver extends Phaser.Scene{
         // Display score
         text = this.add.text(game.config.width/2, game.config.height/2+ borderPadding *5,"",timeTextStyle).setOrigin(0.5);
         text.setText("Score: " + timeInSeconds + " s");
+        menuMusic = this.sound.add('bgm');
+        menuMusic.setLoop(true);
+        menuMusic.play();
     }
-
     update(){
         if (Phaser.Input.Keyboard.JustDown(keyR)) {
+            let music = this.sound.add('select');
+            music.play();
+            menuMusic.stop();
             this.scene.start('playScene');    
         }
         if (Phaser.Input.Keyboard.JustDown(keyM)){
+            let music = this.sound.add('select');
+            music.play();
+            menuMusic.stop();
             this.scene.start('menuScene');
         }
     }
