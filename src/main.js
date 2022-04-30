@@ -5,6 +5,7 @@ let config = {
     type: Phaser.WEBGL,
     width: 1280,
     height: 720,
+    ringPercent: 25,
     physics: {
         default: 'arcade',
         arcade: {
@@ -25,4 +26,4 @@ let game = new Phaser.Game(config);
 let borderPadding = game.config.height/ 25;
 //define keys
 let keySPACE, keyENTER, keyR, keyM;
-let music, gOverConfig, platform,randomSpawn,randomDistance, timer,text;
+let music, gOverConfig, platform,randomSpawn,randomDistance, timer,text, addedPlatforms;

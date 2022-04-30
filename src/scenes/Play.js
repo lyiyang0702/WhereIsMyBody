@@ -17,22 +17,20 @@ class Play extends Phaser.Scene {
         this.load.image('platform', 'stairs.png');
         this.load.image('saltRing', 'saltRing.png');
         this.load.spritesheet('pressEnter', 'EnterSpritesheet.png',{frameWidth:game.config.width/2,framHeight:game.config.height/2,startFrame:0,endFrame:3});
-        //bgm
-        //this.load.audio('bgm', 'backgroundMusic.mp3');
     }
 
     create(){ 
-        // //bgm
-        // let music = this.sound.add('bgm');
-        // music.setLoop(true);
-        // music.play();
-
         // place tile
         this.hell = this.add.tileSprite (0,0,game.config.width,game.config.height,'hell').setOrigin(0,0);
         this.ring = this.physics.add.sprite(game.config.width, game.config.height/2-120, 'saltRing', 'side').setScale(SCALE);
+        this.ring.body.gravity = false;
         this.hell2 = this.add.tileSprite (0,0,game.config.width,game.config.height,'hell2').setOrigin(0,0);
         this.mainGround = this.add.tileSprite (0,0,game.config.width,game.config.height,'ground').setOrigin(0,0);
         //this.ring = this.physics.add.sprite(500, game.config.height/2-120, 'saltRing', 'side').setScale(SCALE);
+        // set up player
+        this.player = this.physics.add.sprite(game.config.width / 4, game.config.height/2-tileSize, 'squareKirby', 'side').setScale(4);
+        this.player.setCollideWorldBounds(true);
+        this.player.setBounce(0.2);
         
         // define keys
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -44,6 +42,8 @@ class Play extends Phaser.Scene {
         this.MAX_JUMPS = 2;
         this.physics.world.gravity.y = 1500;
         this.PLATFORM_SPEED = -200;
+        addedPlatforms = 0;
+
         // random paltform distances
         randomSpawn = [100,200];
         randomDistance = [100,200];
@@ -93,44 +93,33 @@ class Play extends Phaser.Scene {
             }
         });
 
-        // // setting collisions between the player and the ring group
-        // this.physics.add.overlap(this.player, this.ringGroup, function(player, ring){
- 
-        //     this.tweens.add({
-        //         targets: ring,
-        //         y: ring.y - 100,
-        //         alpha: 0,
-        //         duration: 800,
-        //         ease: "Cubic.easeOut",
-        //         callbackScope: this,
-        //         onComplete: function(){
-        //             this.ringGroup.killAndHide(ring);
-        //             this.ringGroup.remove(ring);
-        //         }
-        //     });
- 
-        // }, null, this);
+        // setting collisions between the player and the ring group
+        this.physics.add.overlap(this.player, this.ringGroup, function(player, ring){
+            this.gameOverFun();
+        }, null, this);
         
-        // set up player
-        this.player = this.physics.add.sprite(game.config.width / 4, game.config.height/2-tileSize, 'squareKirby', 'side').setScale(4);
-        this.player.setCollideWorldBounds(true);
-        this.player.setBounce(0.2);
+        
         // add physics collider
         //this.physics.add.collider(this.player, this.ground); 
-        this.physics.add.collider(this.ring, this.ground);
+        this.physics.add.collider(this.ring, this.platformGroup);
         this.physics.add.collider(this.player, this.platformGroup);
         this.physics.add.collider(this.platformGroup, this.ring);
         this.physics.add.collider(this.player, this.ringGroup);
+        this.physics.add.collider(this.ringGroup, this.platformGroup);
 
         // Display time
         let timeTextStyle = {font: "35px Roboto", fill: '#E43AA4', stroke: '#000', strokeThickness: 4}; 
         text = this.add.text(tileSize,tileSize,"",timeTextStyle);
     }
 
-    addPlatform(platformWidth, posX){
+    addPlatform(platformWidth, posX, posY){
+        addedPlatforms++;
+        //console.log(addedPlatforms);
+
         if(this.platformPool.getLength()){
             platform = this.platformPool.getFirst();
             platform.x = posX;
+            platform.y = posY;
             platform.visible = true;
             this.platformPool.remove(platform);
         }
@@ -150,11 +139,39 @@ class Play extends Phaser.Scene {
         if (randomSpawn[1]>=500){
             randomSpawn[1] += 10;
         }
+
+        // if this is not the starting platform...
+        if(addedPlatforms > 1){
+ 
+            // is there a coin over the platform?
+            if(Phaser.Math.Between(1, 100) <= config.ringPercent){
+                if(this.ringPool.getLength()){
+                    let ring = this.ringPool.getFirst();
+                    ring.x = posX;
+                    ring.y = posY;
+                    ring.alpha = 1;
+                    ring.active = true;
+                    ring.visible = true;
+                    //ring.body.allowGravity = false;
+                    this.ringPool.remove(ring);
+                }
+                else{
+                    let ring = this.physics.add.sprite(posX, posY - 30, "saltRing");
+                    ring.setImmovable(true);
+                    ring.setVelocityX(this.PLATFORM_SPEED);
+                    ring.body.allowGravity = false;
+                    //ring.anims.play("rotate");
+                    //ring.setDepth(2);
+                    this.ringGroup.add(ring);
+                }
+            }
+        }
     }
 
     checkGameoverFlag(){
         this.gameOverFlag == true;
     }
+    
     //load gameOverScene
     gameOverFun(){
         if (this.gameOverFlag){
@@ -162,7 +179,6 @@ class Play extends Phaser.Scene {
             this.gameOverFlag = false;
         }
     }
-
 
     update(){
         timer = this.time.now * 0.001;
@@ -233,7 +249,11 @@ class Play extends Phaser.Scene {
             if (randomDistance[1]>=50){
                 randomDistance[1] -= 10;
             }
-            this.addPlatform(nextPlatformWidth, game.config.width + nextPlatformWidth / 2);
+            this.addPlatform(nextPlatformWidth, game.config.width + nextPlatformWidth / 2, game.config.height / 5 * 4);
+            // let rand = Math.floor(Math.random(30));
+            // if(rand % 3 == 0){
+                
+            // }
         }
         //collide, and change to gameOverScene
         this.physics.add.overlap(this.player, this.ring, this.gameOverFun, this.checkGameoverFlag() , this);
