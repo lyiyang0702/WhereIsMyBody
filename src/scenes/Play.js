@@ -29,7 +29,7 @@ class Play extends Phaser.Scene {
 
         // place tile
         this.hell = this.add.tileSprite (0,0,game.config.width,game.config.height,'hell').setOrigin(0,0);
-        this.ring = this.physics.add.sprite(game.config.width*2, game.config.height/2-120, 'saltRing', 'side').setScale(SCALE);
+        this.ring = this.physics.add.sprite(game.config.width, game.config.height/2-120, 'saltRing', 'side').setScale(SCALE);
         this.hell2 = this.add.tileSprite (0,0,game.config.width,game.config.height,'hell2').setOrigin(0,0);
         this.mainGround = this.add.tileSprite (0,0,game.config.width,game.config.height,'ground').setOrigin(0,0);
         //this.ring = this.physics.add.sprite(500, game.config.height/2-120, 'saltRing', 'side').setScale(SCALE);
@@ -74,6 +74,42 @@ class Play extends Phaser.Scene {
             }
         });
         this.addPlatform(game.config.width, game.config.width / 2);
+
+        
+        //random generate challenge
+        // group with all active rings.
+        this.ringGroup = this.add.group({
+ 
+            // once a ring is removed, it's added to the pool
+            removeCallback: function(ring){
+                ring.scene.ringGroup.add(ring)
+            }
+        });
+        // ring pool
+        this.ringPool = this.add.group({
+            // once a ring is removed from the pool, it's added to the active rings group
+            removeCallback: function(ring){
+                ring.scene.ringPool.add(ring)
+            }
+        });
+
+        // // setting collisions between the player and the ring group
+        // this.physics.add.overlap(this.player, this.ringGroup, function(player, ring){
+ 
+        //     this.tweens.add({
+        //         targets: ring,
+        //         y: ring.y - 100,
+        //         alpha: 0,
+        //         duration: 800,
+        //         ease: "Cubic.easeOut",
+        //         callbackScope: this,
+        //         onComplete: function(){
+        //             this.ringGroup.killAndHide(ring);
+        //             this.ringGroup.remove(ring);
+        //         }
+        //     });
+ 
+        // }, null, this);
         
         // set up player
         this.player = this.physics.add.sprite(game.config.width / 4, game.config.height/2-tileSize, 'squareKirby', 'side').setScale(4);
@@ -83,6 +119,9 @@ class Play extends Phaser.Scene {
         //this.physics.add.collider(this.player, this.ground); 
         this.physics.add.collider(this.ring, this.ground);
         this.physics.add.collider(this.player, this.platformGroup);
+        this.physics.add.collider(this.platformGroup, this.ring);
+        this.physics.add.collider(this.player, this.ringGroup);
+
         // Display time
         let timeTextStyle = {font: "35px Roboto", fill: '#E43AA4', stroke: '#000', strokeThickness: 4}; 
         text = this.add.text(tileSize,tileSize,"",timeTextStyle);
@@ -127,7 +166,7 @@ class Play extends Phaser.Scene {
 
     update(){
         timer = this.time.now * 0.001;
-        console.log(timer);
+        //console.log(timer);
         //make background scroll
         this.hell.tilePositionX += (this.SCROLL_SPEED);
         this.ring.x -= this.SCROLL_SPEED;
@@ -175,6 +214,14 @@ class Play extends Phaser.Scene {
                 this.platformGroup.remove(platform);
             }
         }, this);
+
+        // recycling rings
+        this.ringGroup.getChildren().forEach(function(ring){
+            if(ring.x < - ring.displayWidth / 2){
+                this.ringGroup.killAndHide(ring);
+                this.ringGroup.remove(ring);
+            }
+        }, this);
  
         // adding new platforms
         if(minDistance > this.nextPlatformDistance){
@@ -193,5 +240,6 @@ class Play extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.ground, this.gameOverFun, this.checkGameoverFlag(), this);
         // Display time
         text.setText("Time Survived: " + Math.round(timer) + " seconds");
+
     }
 }
