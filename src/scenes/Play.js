@@ -28,7 +28,7 @@ class Play extends Phaser.Scene {
         this.mainGround = this.add.tileSprite (0,0,game.config.width,game.config.height,'ground').setOrigin(0,0);
        
         // set up player
-        this.player = this.physics.add.sprite(game.config.width / 4, game.config.height/2-tileSize, 'squareKirby', 'side').setScale(4);
+        this.player = this.physics.add.sprite(game.config.width / 4, game.config.height/2-tileSize, 'squareKirby', 'side').setScale(3);
         this.player.setCollideWorldBounds(true);
         this.player.setBounce(0.2);
         
@@ -173,10 +173,10 @@ class Play extends Phaser.Scene {
                     
                     let ring = this.physics.add.sprite(posX, posY - 30 , "saltRing");
                     ring.setImmovable(true);
-                    ring.setVelocityX(this.RING_SPEED);
+                    ring.setVelocityX(platform.body.velocity.x);
                     // Change ring speed
                     this.ringSpeed= this.time.delayedCall(5000,() =>{
-                        this.RING_SPEED -= 20;
+                        this.RING_SPEED -= 1;
                       },null,this);
                     ring.body.allowGravity = false;
                     this.ringGroup.add(ring);
