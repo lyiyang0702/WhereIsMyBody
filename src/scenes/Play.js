@@ -60,7 +60,7 @@ class Play extends Phaser.Scene {
         addedPlatforms = 0;
 
         // random paltform properties
-        randomSpawn = [100,200];
+        randomSpawn = [50,100];
         randomDistance = [100,200];
         // make ground tiles group
         this.ground = this.add.group();
@@ -165,11 +165,11 @@ class Play extends Phaser.Scene {
         platform.displayWidth = platformWidth;
         this.nextPlatformDistance = Phaser.Math.Between(randomSpawn[0], randomSpawn[1]);
         // change gap size
-        this.randomGap= this.time.delayedCall(5000,() =>{
-            if (randomSpawn[0]<=300){
+        this.randomGap= this.time.delayedCall(10000,() =>{
+            if (randomSpawn[0]<=200){
                 randomSpawn[0] += 10;
             }
-            if (randomSpawn[1]>=500){
+            if (randomSpawn[1]<=400){
                 randomSpawn[1] += 10;
             }
         },null,this);
@@ -187,13 +187,14 @@ class Play extends Phaser.Scene {
                     this.ringPool.remove(ring);
                 }
                 else{
-                    
-                    let ring = this.physics.add.sprite(posX, posY - 30 , "saltRing");
+                    let s = 0.5;
+                    let ring = this.physics.add.sprite(posX, posY - 30 , "saltRing").setScale(s);
                     ring.setImmovable(true);
                     ring.setVelocityX(platform.body.velocity.x);
-                    // Change ring speed
-                    this.ringSpeed= this.time.delayedCall(5000,() =>{
-                        this.RING_SPEED -= 1;
+                    ring.body.setSize(ring.width/2,ring.height/2);
+                    // Change ring size
+                    this.ringSize= this.time.delayedCall(10000,() =>{
+                        s +=0.1
                       },null,this);
                     ring.body.allowGravity = false;
                     this.ringGroup.add(ring);
@@ -285,11 +286,11 @@ class Play extends Phaser.Scene {
         if(minDistance > this.nextPlatformDistance){
             var nextPlatformWidth = Phaser.Math.Between(randomDistance[0],randomDistance[1]);
             // change platform width every 5s
-            this.randomDis= this.time.delayedCall(5000,() =>{
-                if (randomDistance[0]>=30){
+            this.randomDis= this.time.delayedCall(10000,() =>{
+                if (randomDistance[0]>=50){
                     randomDistance[0] -= 10;
                 }
-                if (randomDistance[1]>=50){
+                if (randomDistance[1]>=100){
                     randomDistance[1] -= 10;
                 }
             },null,this);
