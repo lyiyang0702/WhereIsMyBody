@@ -287,7 +287,7 @@ class Play extends Phaser.Scene {
             var nextPlatformWidth = Phaser.Math.Between(randomDistance[0],randomDistance[1]);
             // change platform width every 5s
             this.randomDis= this.time.delayedCall(10000,() =>{
-                if (randomDistance[0]>=50){
+                if (randomDistance[0]>=70){
                     randomDistance[0] -= 10;
                 }
                 if (randomDistance[1]>=100){
