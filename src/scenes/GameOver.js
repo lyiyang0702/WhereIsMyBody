@@ -41,8 +41,7 @@ class GameOver extends Phaser.Scene {
         // Display score
         text = this.add.text(game.config.width/2, game.config.height/2+ borderPadding *5,"",timeTextStyle).setOrigin(0.5);
         text.setText("Score: " + timeInSeconds + " s");
-        menuMusic = this.sound.add('bgm');
-        menuMusic.setLoop(true);
+        menuMusic = this.sound.add('bgm',soundConfig);
         menuMusic.play();
     }
     update(){

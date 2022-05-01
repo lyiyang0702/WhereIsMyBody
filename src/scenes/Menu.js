@@ -33,7 +33,7 @@ class Menu extends Phaser.Scene {
         keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
         //bgm
-        menuMusic = this.sound.add('bgm');
+        menuMusic = this.sound.add('bgm',soundConfig);
         menuMusic.setLoop(true);
         menuMusic.play();
     }

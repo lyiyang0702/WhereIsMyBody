@@ -40,7 +40,7 @@ class Play extends Phaser.Scene {
         });
 
         // set up player
-        this.player = this.physics.add.sprite(game.config.width / 4, game.config.height/2 - tileSize, 'ghostAnimation', 'side').setScale(0.1);
+        this.player = this.physics.add.sprite(game.config.width / 4, game.config.height/2 - tileSize, 'ghostAnimation', 'side').setScale(0.05);
         this.player.anims.play('ghostAnimation');
         this.player.setCollideWorldBounds(true);
         this.player.setBounce(0.2);
@@ -132,8 +132,7 @@ class Play extends Phaser.Scene {
             loop: true,
         });
 
-    bgmMusic = this.sound.add('backMusic');
-    bgmMusic.setLoop(true);
+    bgmMusic = this.sound.add('backMusic',soundConfig);
     bgmMusic.play();
     }
     tick(){
@@ -254,7 +253,7 @@ class Play extends Phaser.Scene {
 	        this.jumping = true;
         }
         if(this.jumps > 0 && Phaser.Input.Keyboard.JustDown(keySPACE)) {
-            let music = this.sound.add('jump',soundConfig);
+            let music = this.sound.add('jump');
             music.play();
         }
         // finally, letting go of the Space key subtracts a jump

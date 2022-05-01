@@ -22,12 +22,9 @@ let config = {
 
 let soundConfig = {
         mute: false,
-        volume: 1,
+        volume: 0.8,
         rate: 1,
-        detune: 0,
-        seek: 0,
         loop: true,
-        delay: 0
 }
 
 let cursors;
