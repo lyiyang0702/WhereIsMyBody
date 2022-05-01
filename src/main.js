@@ -20,6 +20,16 @@ let config = {
 
 };
 
+let soundConfig = {
+        mute: false,
+        volume: 1,
+        rate: 1,
+        detune: 0,
+        seek: 0,
+        loop: true,
+        delay: 0
+}
+
 let cursors;
 let game = new Phaser.Game(config);
 // set UI sizes

@@ -40,11 +40,12 @@ class Play extends Phaser.Scene {
         });
 
         // set up player
-        this.player = this.physics.add.sprite(game.config.width / 4, game.config.height/2-tileSize, 'ghostAnimation', 'side').setScale(0.1);
+        this.player = this.physics.add.sprite(game.config.width / 4, game.config.height/2 - tileSize, 'ghostAnimation', 'side').setScale(0.1);
         this.player.anims.play('ghostAnimation');
         this.player.setCollideWorldBounds(true);
         this.player.setBounce(0.2);
-        
+        // set size of bounding box
+        this.player.body.setSize(this.player.width, this.player.height);
         // define keys
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -234,7 +235,7 @@ class Play extends Phaser.Scene {
             music.play(); */
             this.scene.start("menuScene");
         }
-        // check if alien is grounded
+        // check if player is grounded
 	    this.player.isGrounded = this.player.body.touching.down;
         // if so, we have jumps to spare
 	    if(this.player.isGrounded) {
@@ -253,7 +254,7 @@ class Play extends Phaser.Scene {
 	        this.jumping = true;
         }
         if(this.jumps > 0 && Phaser.Input.Keyboard.JustDown(keySPACE)) {
-            let music = this.sound.add('jump');
+            let music = this.sound.add('jump',soundConfig);
             music.play();
         }
         // finally, letting go of the Space key subtracts a jump
@@ -284,7 +285,7 @@ class Play extends Phaser.Scene {
         // adding new platforms
         if(minDistance > this.nextPlatformDistance){
             var nextPlatformWidth = Phaser.Math.Between(randomDistance[0],randomDistance[1]);
-            // change platform width
+            // change platform width every 5s
             this.randomDis= this.time.delayedCall(5000,() =>{
                 if (randomDistance[0]>=30){
                     randomDistance[0] -= 10;
