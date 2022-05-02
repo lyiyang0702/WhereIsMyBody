@@ -122,7 +122,7 @@ class Play extends Phaser.Scene {
 
         // Time
         timeInSeconds = 0;
-        let timeTextStyle = {font: "35px Roboto", fill: '#E43AA4', stroke: '#000', strokeThickness: 4}; 
+        let timeTextStyle = {font: "35px Copperplate Gothic", fill: '#E43AA4', stroke: '#000', strokeThickness: 4}; 
         text = this.add.text(tileSize,tileSize,"",timeTextStyle);
         // display 0 seconds
         text.setText("Time Survived: " + timeInSeconds + " s");

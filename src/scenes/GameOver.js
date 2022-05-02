@@ -50,18 +50,14 @@ class GameOver extends Phaser.Scene {
             fixedWidth: 0
         }
 
-        //this.over = this.add.sprite(game.config.width/2,game.config.height/2-5,'gOver');
-        //this.over.anims.play('gOverAnimation');
-        //this.add.text (game.config.width/2, game.config.height/2 + borderPadding *7, 'Press R to Restart', gOverConfig).setOrigin(0.5);
-        //this.add.text (game.config.width/2, game.config.height/2 + borderPadding *10, 'Press M for Menu', gOverConfig).setOrigin(0.5);
         this.bgrd1 = this.add.tileSprite (0,0,game.config.width,game.config.height,'bg').setOrigin(0,0);
         this.gameWords = this.add.sprite(game.config.width/2,game.config.height/2-5,'gameOverWords');
         this.gameWords.anims.play('gameOverWordsAnimation');
         this.gameTitle = this.add.sprite(game.config.width/2,game.config.height/2-5,'gameOverTitle');
         this.gameTitle.anims.play('gameOverTitleAnimation');
-        let timeTextStyle = {font: "35px Roboto", fill: '#E43AA4', stroke: '#000', strokeThickness: 4}; 
+        let timeTextStyle = {font: "40px Copperplate Gothic", fill: '#E43AA4', stroke: '#000', strokeThickness: 4}; 
         // Display score
-        text = this.add.text(game.config.width/2, game.config.height/2+ borderPadding *5,"",timeTextStyle).setOrigin(0.5);
+        text = this.add.text(game.config.width/2, game.config.height/2+ borderPadding *3,"",timeTextStyle).setOrigin(0.5);
         text.setText("Score: " + timeInSeconds + " s");
         menuMusic = this.sound.add('bgm',soundConfig);
         menuMusic.play();
