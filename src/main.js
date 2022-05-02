@@ -5,7 +5,7 @@ let config = {
     type: Phaser.WEBGL,
     width: 1280,
     height: 720,
-    ringPercent: 25,
+    ringPercent: 30,
     physics: {
         default: 'arcade',
         arcade: {
