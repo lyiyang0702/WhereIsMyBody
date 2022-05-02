@@ -12,7 +12,7 @@ class Play extends Phaser.Scene {
         this.load.image ('hell','BackgroundNoMove.png');
         this.load.image ('hell2','BackgroundMountain.png');
         this.load.spritesheet('gOver','GameOver.png',{frameWidth:game.config.width,framHeight:game.config.height,startFrame:0,endFrame:2});
-        this.load.image('squareKirby', 'squareKirby.png');
+        //this.load.image('squareKirby', 'squareKirby.png');
         this.load.spritesheet('runGhost','TrueRunningGhost.png',{frameWidth:720,framHeight:720,startFrame:0,endFrame:2});
         this.load.image('ground', 'BackgroundPlatform.png');
         // change platform image here
@@ -117,7 +117,7 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.ring, this.platformGroup);
         this.physics.add.collider(this.player, this.platformGroup);
         this.physics.add.collider(this.platformGroup, this.ring);
-        this.physics.add.collider(this.player, this.ringGroup);
+        //this.physics.add.collider(this.player, this.ringGroup);
         this.physics.add.collider(this.ringGroup, this.platformGroup);
 
         // Time
@@ -174,8 +174,8 @@ class Play extends Phaser.Scene {
             }
         },null,this);
         // if this is not the starting platform...
-        if(addedPlatforms > 1){
-            // is there a coin over the platform?
+        if(addedPlatforms > 1 && platformWidth >= 100){
+            // is there a ring over the platform?
             if(Phaser.Math.Between(1, 100) <= config.ringPercent){
                 if(this.ringPool.getLength()){
                     let ring = this.ringPool.getFirst();
@@ -297,7 +297,7 @@ class Play extends Phaser.Scene {
             this.addPlatform(nextPlatformWidth, game.config.width + nextPlatformWidth / 2, game.config.height / 5 * 4);
         }
         //collide, and change to gameOverScene
-        this.physics.add.overlap(this.player, this.ring, this.gameOverFun, this.checkGameoverFlag() , this);
+        //this.physics.add.overlap(this.player, this.ring, this.gameOverFun, this.checkGameoverFlag() , this);
         this.physics.add.overlap(this.player, this.ground, this.gameOverFun, this.checkGameoverFlag(), this);
 
     }
