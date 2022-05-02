@@ -14,7 +14,7 @@ class Play extends Phaser.Scene {
         this.load.spritesheet('runGhost','TrueRunningGhost.png',{frameWidth:720,framHeight:720,startFrame:0,endFrame:2});
         this.load.image('ground', 'BackgroundPlatform.png');
         this.load.image('platform', 'ground.png');
-        this.load.image('saltRing', 'saltRing.png');
+        this.load.image('saltRing', 'SaltySalt.png');
         this.load.spritesheet('pressEnter', 'EnterSpritesheet.png',{frameWidth:game.config.width/2,framHeight:game.config.height/2,startFrame:0,endFrame:3});
         this.load.audio('jump', 'jump.wav');    
         this.load.audio('select', 'selectSound.wav');
@@ -183,14 +183,14 @@ class Play extends Phaser.Scene {
                     this.ringPool.remove(ring);
                 }
                 else{
-                    let s = 0.5;
+                    let s = 0.05;
                     let ring = this.physics.add.sprite(posX, posY - 30 , "saltRing").setScale(s);
                     ring.setImmovable(true);
                     ring.setVelocityX(platform.body.velocity.x);
                     ring.body.setSize(ring.width/2,ring.height/2);
                     // Change ring size
                     this.ringSize= this.time.delayedCall(10000,() =>{
-                        s +=0.1
+                        s +=0.01
                       },null,this);
                     ring.body.allowGravity = false;
                     this.ringGroup.add(ring);
