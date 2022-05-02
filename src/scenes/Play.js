@@ -13,6 +13,9 @@ class Play extends Phaser.Scene {
         this.load.spritesheet('gOver','GameOver.png',{frameWidth:game.config.width,framHeight:game.config.height,startFrame:0,endFrame:2});
         this.load.spritesheet('runGhost','TrueRunningGhost.png',{frameWidth:720,framHeight:720,startFrame:0,endFrame:2});
         this.load.image('ground', 'BackgroundPlatform.png');
+        this.load.spritesheet('fire','fireAnimation.png',{frameWidth:1280,framHeight:720,startFrame:0,endFrame:4});
+       
+        // change platform image here
         this.load.image('platform', 'ground.png');
         this.load.image('saltRing', 'SaltySalt.png');
         this.load.spritesheet('pressEnter', 'EnterSpritesheet.png',{frameWidth:game.config.width/2,framHeight:game.config.height/2,startFrame:0,endFrame:3});
@@ -36,11 +39,21 @@ class Play extends Phaser.Scene {
             repeat:-1
         });
 
+        this.anims.create({
+            key:'fireAnimation',
+            frames:this.anims.generateFrameNumbers('fire',{start:0, end: 4, first: 0}),
+            frameRate:10,
+            repeat:-1
+        });
+
         // set up player
         this.player = this.physics.add.sprite(game.config.width / 4, game.config.height/2 - tileSize, 'ghostAnimation', 'side').setScale(0.05);
         this.player.anims.play('ghostAnimation');
         this.player.setCollideWorldBounds(true);
         this.player.setBounce(0.2);
+        //fire animation
+        this.fire = this.add.sprite(game.config.width/2,game.config.height/2-5,'fire');
+        this.fire.anims.play('fireAnimation');
         // set size of bounding box
         this.player.body.setSize(this.player.width, this.player.height);
         // define keys
