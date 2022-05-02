@@ -1,4 +1,3 @@
-//let menuMusic1;
 class GameOver extends Phaser.Scene {
     constructor(){
         super ("gameOverScene");

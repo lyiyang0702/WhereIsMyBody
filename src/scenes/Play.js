@@ -7,15 +7,12 @@ class Play extends Phaser.Scene {
     preload(){
         //load images
         this.load.path ='./assets/';
-        //this.load.image ('hell','Hell.png');
         this.load.spritesheet('gOver','GameOver.png',{frameWidth:game.config.width/2,framHeight:game.config.height/2,startFrame:0,endFrame:2});
         this.load.image ('hell','BackgroundNoMove.png');
         this.load.image ('hell2','BackgroundMountain.png');
         this.load.spritesheet('gOver','GameOver.png',{frameWidth:game.config.width,framHeight:game.config.height,startFrame:0,endFrame:2});
-        //this.load.image('squareKirby', 'squareKirby.png');
         this.load.spritesheet('runGhost','TrueRunningGhost.png',{frameWidth:720,framHeight:720,startFrame:0,endFrame:2});
         this.load.image('ground', 'BackgroundPlatform.png');
-        // change platform image here
         this.load.image('platform', 'ground.png');
         this.load.image('saltRing', 'saltRing.png');
         this.load.spritesheet('pressEnter', 'EnterSpritesheet.png',{frameWidth:game.config.width/2,framHeight:game.config.height/2,startFrame:0,endFrame:3});
@@ -117,7 +114,6 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.ring, this.platformGroup);
         this.physics.add.collider(this.player, this.platformGroup);
         this.physics.add.collider(this.platformGroup, this.ring);
-        //this.physics.add.collider(this.player, this.ringGroup);
         this.physics.add.collider(this.ringGroup, this.platformGroup);
 
         // Time
@@ -226,25 +222,16 @@ class Play extends Phaser.Scene {
         this.gameOverFlag = true;
         //game Over restarting choice
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)){
-            /* let music = this.sound.add('select');
-            music.play(); */
-            this.scene.restart();
-        }
-        if(this.gameOver && Phaser.Input.Keyboard.JustDown(keySPACE)){
-            /* let music = this.sound.add('select');
-            music.play(); */
             this.scene.start("menuScene");
         }
         // check if player is grounded
 	    this.player.isGrounded = this.player.body.touching.down;
         // if so, we have jumps to spare
 	    if(this.player.isGrounded) {
-            //this.player.anims.play('walk', true);
 	    	this.jumps = this.MAX_JUMPS;
 	    	this.jumping = false;
             this.player.body.setVelocityX(200);
 	    } else {
-	    	//this.player.anims.play('jump');
             this.player.body.setVelocityX(0);
 	    }
         // allow steady velocity change up to a certain key down duration

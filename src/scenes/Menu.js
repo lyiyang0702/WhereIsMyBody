@@ -50,9 +50,6 @@ class Menu extends Phaser.Scene {
 
 
         // show menu text
-        //this.add.text (game.config.width/2, game.config.height/2 - borderPadding *5, 'WHERE IS MY BODY',menuConfig).setOrigin(0.5);
-        //this.add.text (game.config.width/2, game.config.height/2 , 'Press SPACE to START', menuConfig).setOrigin(0.5);
-        //this.add.text (game.config.width/2, game.config.height/2 + borderPadding *5, 'Press ENTER for Ghost 101', menuConfig).setOrigin(0.5);
         this.bgrd = this.add.tileSprite (0,0,game.config.width,game.config.height,'bg').setOrigin(0,0);
         this.menuEnter = this.add.sprite(game.config.width/2,game.config.height/2+50,'enterSprite');
         this.menuEnter.anims.play('enterAnimation');
