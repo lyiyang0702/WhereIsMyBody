@@ -1,1 +1,74 @@
-{"frames":{"run_ghost_0003":{"frame":{"x":1443,"y":0,"w":694,"h":666},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":694,"h":666},"sourceSize":{"w":694,"h":666}},"run_ghost_0002":{"frame":{"x":723,"y":27,"w":694,"h":666},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":694,"h":666},"sourceSize":{"w":694,"h":666}},"run_ghost_0001":{"frame":{"x":3,"y":54,"w":694,"h":666},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":694,"h":666},"sourceSize":{"w":694,"h":666}}},"meta":{"app":"https://www.leshylabs.com/apps/sstool/","version":"Leshy SpriteSheet Tool v0.8.4","image":"spritesheet.png","size":{"w":2160,"h":720},"scale":1}}
+{
+    "frames": {
+        "run_ghost_0001": {
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 720,
+                "h": 720
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 720,
+                "h": 720
+            },
+            "sourceSize": {
+                "w": 720,
+                "h": 720
+            }
+        },
+        "run_ghost_0002": {
+            "frame": {
+                "x": 720,
+                "y": 0,
+                "w": 720,
+                "h": 720
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 720,
+                "h": 720
+            },
+            "sourceSize": {
+                "w": 720,
+                "h": 720
+            }
+        },
+        "run_ghost_0003": {
+            "frame": {
+                "x": 1440,
+                "y": 0,
+                "w": 720,
+                "h": 720
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 720,
+                "h": 720
+            },
+            "sourceSize": {
+                "w": 720,
+                "h": 720
+            }
+        }
+    },
+    "meta": {
+        "app": "https://www.leshylabs.com/apps/sstool/",
+        "version": "Leshy SpriteSheet Tool v0.8.4",
+        "image": "spritesheet.png",
+        "size": {
+            "w": 2160,
+            "h": 720
+        },
+        "scale": 1
+    }
+}
