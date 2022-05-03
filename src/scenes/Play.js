@@ -11,7 +11,6 @@ class Play extends Phaser.Scene {
         this.load.image('hell', 'BackgroundNoMove.png');
         this.load.image('hell2', 'BackgroundMountain.png');
         this.load.spritesheet('gOver', 'GameOver.png', { frameWidth: game.config.width, framHeight: game.config.height, startFrame: 0, endFrame: 2 });
-        //this.load.spritesheet('runGhost','TrueRunningGhost.png',{frameWidth:720,framHeight:720,startFrame:0,endFrame:2});
         this.load.atlas('ghost_atlas', 'TrueRunningGhost.png', 'ghostmap.json');
         this.load.image('ground', 'BackgroundPlatform.png');
         this.load.spritesheet('fire', 'fireAnimation.png', { frameWidth: 1280, framHeight: 720, startFrame: 0, endFrame: 4 });
@@ -32,13 +31,6 @@ class Play extends Phaser.Scene {
         this.ring.body.gravity = false;
         this.hell2 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'hell2').setOrigin(0, 0);
         this.mainGround = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'ground').setOrigin(0, 0);
-
-        // this.anims.create({
-        //     key:'ghostAnimation',
-        //     frames:this.anims.generateFrameNumbers('runGhost',{start:0, end: 2, first: 0}),
-        //     frameRate:10,
-        //     repeat:-1
-        // });
 
         // ghost animation
         this.anims.create({
