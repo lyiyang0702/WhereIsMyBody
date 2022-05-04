@@ -11,7 +11,7 @@ class Play extends Phaser.Scene {
         this.load.image('hell', 'BackgroundNoMove.png');
         this.load.image('hell2', 'BackgroundMountain.png');
         this.load.spritesheet('gOver', 'GameOver.png', { frameWidth: game.config.width, framHeight: game.config.height, startFrame: 0, endFrame: 2 });
-        this.load.atlas('ghost_atlas', 'TrueRunningGhost.png', 'ghostmap.json');
+        this.load.atlas('ghost_atlas', 'TrueRunningGhost.png', 'Ghostmap.json');
         this.load.image('ground', 'BackgroundPlatform.png');
         this.load.spritesheet('fire', 'fireAnimation.png', { frameWidth: 1280, framHeight: 720, startFrame: 0, endFrame: 4 });
 
