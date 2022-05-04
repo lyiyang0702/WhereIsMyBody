@@ -40,6 +40,7 @@ class Play extends Phaser.Scene {
                 start: 1,
                 end: 3,
                 suffix: '',
+                zeroPad: 4
             }),
             frameRate: 10,
             repeat: -1,
@@ -54,7 +55,7 @@ class Play extends Phaser.Scene {
 
         // set up player
         this.player = this.physics.add.sprite(game.config.width / 4, game.config.height / 2 - tileSize, 'ghostAnimation', 'run_ghost_0001').setScale(0.05);
-        this.player.anims.play('ghostAnimation');
+        this.player.anims.play('ghostAnimation', true);
         this.player.setCollideWorldBounds(true);
         this.player.setBounce(0.2);
         //fire animation
@@ -243,6 +244,7 @@ class Play extends Phaser.Scene {
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.start("menuScene");
         }
+
         // check if player is grounded
         this.player.isGrounded = this.player.body.touching.down;
         // if so, we have jumps to spare
