@@ -35,19 +35,6 @@ class Menu extends Phaser.Scene {
             repeat:-1
         });
 
-        let menuConfig = {
-            fontFamily: 'Courier',
-            fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
-            align: 'right',
-            padding: {
-                top:5,
-                bottom: 5,
-            },
-            fixedWidth: 0
-        }
-
 
         // show menu text
         this.bgrd = this.add.tileSprite (0,0,game.config.width,game.config.height,'bg').setOrigin(0,0);
