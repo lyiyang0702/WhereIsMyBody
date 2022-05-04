@@ -16,7 +16,7 @@ let config = {
             }
         }
     },
-    scene: [Menu,Play,Tutorial,GameOver]
+    scene: [Menu,Play,Tutorial,GameOver, Backstory]
 
 };
 

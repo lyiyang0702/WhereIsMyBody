@@ -69,8 +69,9 @@ class Menu extends Phaser.Scene {
 
     update(){
         this.bgrd.tilePositionX += 2;
+        //open backstory
         if (Phaser.Input.Keyboard.JustDown(keyENTER)) {
-            this.scene.start('playScene');   
+            this.scene.start('backstoryScene');   
             let music = this.sound.add('select');
             music.play();
             menuMusic.stop();
