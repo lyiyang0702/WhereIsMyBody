@@ -20,7 +20,7 @@ class Tutorial extends Phaser.Scene {
             let music = this.sound.add('select');
             music.play();
             menuMusic.stop();
-            this.scene.start('playScene');    
+            this.scene.start('menuScene');    
         }
     }
 
