@@ -1,3 +1,11 @@
+//Game Title: Where Is My Body
+//Made by: Thrisha Kopula, Yiyang Lu, Diana Yee, Siyi Zhang
+//Date Completed: 5/3/22
+//Creative Tilt: Our game has a dark, neon visual style with music that adds a more sci-fi/spooky theme.
+//               For the technical aspects, we have platforms that are randomly shaped and vary in size. 
+//               The game also increases in speed as the time increases, making it more challenging as you progress.
+//               Our group is proud of the visual design, as none of us have any artistic background, and we are proud 
+//               of the technicality of the code as well since it is also the first time any of us coded in a game context.
 const SCALE = 1;
 const tileSize = 35;
 
